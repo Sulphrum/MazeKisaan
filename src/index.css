@@ -52,7 +52,7 @@ html { scroll-behavior: smooth; }
   min-height: 760px;
   background:
     linear-gradient(180deg, rgba(12, 39, 23, 0.04), rgba(12, 39, 23, 0.52)),
-    url('./assets/kisansetu-hero.jpg') 64% center / cover no-repeat;
+    url('./assets/kisansetu-hero.jpeg') 64% center / cover no-repeat;
 }
 
 .auth-only #auth-section > div > div > * {

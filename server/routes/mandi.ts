@@ -3,7 +3,7 @@ import { db } from '../db/store.ts'
 
 export const mandiRouter = Router()
 
-const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000'
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || (process.env.VERCEL ? '' : 'http://localhost:8000')
 const FESTIVALS = [
   { name: 'Ganesh Chaturthi', start_date: '2026-08-19', end_date: '2026-08-29', impact: 15 },
   { name: 'Navratri', start_date: '2026-10-02', end_date: '2026-10-11', impact: 18 },
@@ -13,6 +13,10 @@ const FESTIVALS = [
 const FESTIVAL_CROPS = ['Tomato', 'Green Chilli', 'Onion', 'Potato']
 
 async function callMLService(endpoint: string, body?: Record<string, unknown>): Promise<any | null> {
+  // The Python model runs as an optional separate service. On Vercel, use the
+  // deterministic market-data fallback unless ML_SERVICE_URL is configured.
+  if (!ML_SERVICE_URL) return null
+
   try {
     const response = await fetch(`${ML_SERVICE_URL}${endpoint}`, {
       method: body ? 'POST' : 'GET',

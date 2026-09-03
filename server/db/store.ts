@@ -34,7 +34,9 @@ export interface DatabaseSchema {
 
 const DB_DIR = process.env.KISANSETU_DB_DIR
   ? path.resolve(process.env.KISANSETU_DB_DIR)
-  : path.resolve(process.cwd(), 'server/data')
+  : process.env.VERCEL
+    ? path.resolve('/tmp/majhe-kisan-data')
+    : path.resolve(process.cwd(), 'server/data')
 const DB_FILE = path.join(DB_DIR, 'db.json')
 
 // ─── Initial Seed Data ────────────────────────────────────────────────────────

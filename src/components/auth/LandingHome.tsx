@@ -1,4 +1,4 @@
-import heroImage from '../../assets/kisansetu-hero.jpg'
+import heroImage from '../../assets/kisansetu-hero.jpeg'
 import storageImage from '../../assets/kisansetu-storage.jpg'
 import buyerImage from '../../assets/kisansetu-buyer.jpg'
 import { BrandLogo } from '../common/BrandLogo'

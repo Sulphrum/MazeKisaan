@@ -4,6 +4,8 @@ import type { AuthenticatedRequest } from '../authMiddleware.ts'
 
 export const schemesRouter = Router()
 
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || (process.env.VERCEL ? '' : 'http://localhost:8000')
+
 const OFFICIAL_SOURCES = {
   mahaDbt: 'https://mahadbt.maharashtra.gov.in/Farmer/Login/Login',
   pmKisan: 'https://pmkisan.gov.in/',
@@ -139,7 +141,8 @@ schemesRouter.post('/calculate-loan', async (req: AuthenticatedRequest, res: Res
     let forecastLow = Math.round(currentPrice * 0.8)
     let modelUsed = false
     try {
-      const response = await fetch('http://localhost:8000/predict', {
+      if (!ML_SERVICE_URL) throw new Error('ML service is not configured')
+      const response = await fetch(`${ML_SERVICE_URL}/predict`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(2500),
         body: JSON.stringify({ commodity: crop, mandi: 'Niphad', current_price: currentPrice, price_7d_ago: Math.round(currentPrice / 1.03), price_30d_ago: Math.round(currentPrice / 1.06), arrivals_tonnes: 45.5, forecast_days: 7 }),
       })
