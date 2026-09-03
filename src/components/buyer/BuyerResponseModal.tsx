@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 import type { NegotiationBid, ProcurementDemand } from '../../types'
 import { BuyerIcon, BuyerStatus, formatDate, money } from './BuyerWorkspaceUi'
+import { NegotiationChat } from '../common/NegotiationChat'
 
-export function BuyerResponseModal({ response, demand, busy, onClose, onDecision }: {
+export function BuyerResponseModal({ response, demand, currentUserId, busy, messageBusy, onClose, onDecision, onSendMessage }: {
   response: NegotiationBid
   demand?: ProcurementDemand
+  currentUserId: string
   busy: boolean
+  messageBusy: boolean
   onClose: () => void
   onDecision: (status: 'Accepted' | 'Rejected', note: string) => Promise<void>
+  onSendMessage: (message: string) => Promise<void>
 }) {
   const [note, setNote] = useState(response.decisionNote || '')
 
@@ -47,8 +51,10 @@ export function BuyerResponseModal({ response, demand, busy, onClose, onDecision
           </dl>{response.note && <p className="mt-3 rounded-xl p-3 text-xs leading-relaxed" style={{ background: '#FFF8ED', color: '#7A5310' }}>{response.note}</p>}</section>
         </div>
 
+        <NegotiationChat conversation={response} currentUserId={currentUserId} sending={messageBusy} onSend={onSendMessage} />
+
         {response.status === 'Pending' ? <section className="border-t pt-5" style={{ borderColor: '#E2EBE5' }}>
-          <label><span className="text-xs font-bold" style={{ color: '#52635A' }}>Message to farmer <span className="font-normal" style={{ color: '#879087' }}>(optional)</span></span><textarea rows={3} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Confirm pickup timing or explain your decision." className="mt-2 w-full resize-none rounded-xl border px-3 py-3 text-sm outline-none" style={{ borderColor: '#C8D5CD' }} /></label>
+          <label><span className="text-xs font-bold" style={{ color: '#52635A' }}>Decision note <span className="font-normal" style={{ color: '#879087' }}>(optional)</span></span><textarea rows={3} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Add a note that will appear with your decision." className="mt-2 w-full resize-none rounded-xl border px-3 py-3 text-sm outline-none" style={{ borderColor: '#C8D5CD' }} /></label>
           <div className="mt-4 grid grid-cols-2 gap-2"><button type="button" disabled={busy} onClick={() => void onDecision('Rejected', note)} className="rounded-xl border px-4 py-3 text-sm font-bold disabled:opacity-50" style={{ borderColor: '#B96860', color: '#9F241B' }}>Decline</button><button type="button" disabled={busy} onClick={() => void onDecision('Accepted', note)} className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white disabled:opacity-50" style={{ background: '#063B2A' }}><BuyerIcon name="check" className="h-4 w-4" />{busy ? 'Saving…' : 'Approve offer'}</button></div>
           <p className="mt-3 text-center text-[10px] leading-relaxed" style={{ color: '#66736C' }}>Approval confirms your interest. Final weight, physical quality, pickup and protected payment must still be confirmed.</p>
         </section> : <div className="rounded-xl p-4 text-xs leading-relaxed" style={{ background: response.status === 'Accepted' ? '#EAF5EE' : '#FEF2F2', color: response.status === 'Accepted' ? '#216644' : '#9F241B' }}><strong>{response.status === 'Accepted' ? 'You approved this offer.' : 'You declined this offer.'}</strong>{response.decisionNote ? ` ${response.decisionNote}` : ''}</div>}

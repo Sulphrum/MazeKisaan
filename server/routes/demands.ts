@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express'
 import { db } from '../db/store.ts'
-import type { ProcurementDemand, NegotiationBid } from '../db/types.ts'
+import type { ProcurementDemand, NegotiationBid, NegotiationMessage } from '../db/types.ts'
 import type { AuthenticatedRequest } from '../authMiddleware.ts'
 
 export const demandsRouter = Router()
@@ -90,6 +90,7 @@ demandsRouter.post('/negotiations', (req: AuthenticatedRequest, res: Response) =
       senderRole,
       senderName,
       targetUserId,
+      targetName,
       cropName,
       requestedQuantityQtl,
       counterPricePerQtl,
@@ -114,6 +115,7 @@ demandsRouter.post('/negotiations', (req: AuthenticatedRequest, res: Response) =
       senderRole: req.user?.role === 'farmer' ? 'farmer' : 'buyer',
       senderName: req.user?.companyName || req.user?.name || senderName || 'User',
       targetUserId: targetUserId || 'target_' + Date.now(),
+      targetName: targetName ? String(targetName).trim().slice(0, 120) : undefined,
       cropName: cropName || 'Produce',
       requestedQuantityQtl: parseInt(requestedQuantityQtl),
       counterPricePerQtl: parseInt(counterPricePerQtl),
@@ -128,12 +130,74 @@ demandsRouter.post('/negotiations', (req: AuthenticatedRequest, res: Response) =
       farmerAccountLocation: req.user?.role === 'farmer' ? req.user.location : undefined,
       status: 'Pending',
       createdAt: new Date().toISOString(),
+      messages: note ? [{
+        id: `msg_${Date.now()}_opening`,
+        senderId: req.user?.id || senderId,
+        senderRole: req.user?.role === 'farmer' ? 'farmer' : 'buyer',
+        senderName: req.user?.companyName || req.user?.name || senderName || 'User',
+        message: String(note).trim().slice(0, 1000),
+        createdAt: new Date().toISOString(),
+      }] : [],
     }
 
     db.createNegotiation(newBid)
     return res.status(201).json({ message: 'Counter offer submitted successfully', bid: newBid })
   } catch (err: any) {
     return res.status(500).json({ error: 'Failed to submit counter offer' })
+  }
+})
+
+// ─── POST /api/demands/negotiations/:id/messages ─────────────────────────────
+demandsRouter.post('/negotiations/:id/messages', (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const bid = db.getNegotiationById(String(req.params.id))
+    if (!bid) return res.status(404).json({ error: 'Conversation not found' })
+    if (!req.user || (bid.senderId !== req.user.id && bid.targetUserId !== req.user.id)) {
+      return res.status(403).json({ error: 'You can only message people in your own sale conversation' })
+    }
+
+    const message = String(req.body.message || '').trim().slice(0, 1000)
+    if (!message) return res.status(400).json({ error: 'Write a message before sending' })
+
+    const existingMessages: NegotiationMessage[] = bid.messages?.length
+      ? bid.messages
+      : bid.note
+        ? [{
+            id: `${bid.id}_opening`,
+            senderId: bid.senderId,
+            senderRole: bid.senderRole,
+            senderName: bid.senderName,
+            message: bid.note,
+            createdAt: bid.createdAt,
+          }]
+        : []
+    const nextMessage: NegotiationMessage = {
+      id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      senderId: req.user.id,
+      senderRole: req.user.role === 'farmer' ? 'farmer' : 'buyer',
+      senderName: req.user.companyName || req.user.name,
+      message,
+      createdAt: new Date().toISOString(),
+    }
+    const updated = db.updateNegotiation(bid.id, {
+      messages: [...existingMessages, nextMessage],
+      updatedAt: nextMessage.createdAt,
+    })
+    if (!updated) return res.status(404).json({ error: 'Conversation not found' })
+
+    const recipientId = req.user.id === bid.senderId ? bid.targetUserId : bid.senderId
+    db.createNotification({
+      id: `notif_${Date.now()}_message`,
+      userId: recipientId,
+      title: `New message about ${bid.cropName}`,
+      message: `${nextMessage.senderName}: ${message.slice(0, 120)}`,
+      type: 'bid',
+      read: false,
+      timestamp: 'Just now',
+    })
+    return res.status(201).json({ message: 'Message sent', bid: updated })
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Message could not be sent' })
   }
 })
 

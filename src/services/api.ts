@@ -245,6 +245,7 @@ export const api = {
       senderRole: 'farmer' | 'buyer'
       senderName: string
       targetUserId: string
+      targetName?: string
       cropName: string
       requestedQuantityQtl: number
       counterPricePerQtl: number
@@ -269,6 +270,13 @@ export const api = {
       const res = await request<{ message: string; bid: NegotiationBid }>(`/demands/negotiations/${encodeURIComponent(id)}`, {
         method: 'PATCH',
         body: JSON.stringify({ status, decisionNote }),
+      })
+      return res.bid
+    },
+    async sendNegotiationMessage(id: string, message: string): Promise<NegotiationBid> {
+      const res = await request<{ message: string; bid: NegotiationBid }>(`/demands/negotiations/${encodeURIComponent(id)}/messages`, {
+        method: 'POST',
+        body: JSON.stringify({ message }),
       })
       return res.bid
     },

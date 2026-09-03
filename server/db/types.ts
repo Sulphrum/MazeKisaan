@@ -227,6 +227,7 @@ export interface NegotiationBid {
   senderRole: 'farmer' | 'buyer'
   senderName: string
   targetUserId: string
+  targetName?: string
   cropName: string
   requestedQuantityQtl: number
   counterPricePerQtl: number
@@ -243,6 +244,16 @@ export interface NegotiationBid {
   createdAt: string
   updatedAt?: string
   decisionNote?: string
+  messages?: NegotiationMessage[]
+}
+
+export interface NegotiationMessage {
+  id: string
+  senderId: string
+  senderRole: 'farmer' | 'buyer'
+  senderName: string
+  message: string
+  createdAt: string
 }
 
 export interface SchemeItem {

@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { get, put } from '@vercel/blob'
 import type {
   User,
   CropItem,
@@ -38,6 +39,15 @@ const DB_DIR = process.env.KISANSETU_DB_DIR
     ? path.resolve('/tmp/majhe-kisan-data')
     : path.resolve(process.cwd(), 'server/data')
 const DB_FILE = path.join(DB_DIR, 'db.json')
+const REMOTE_DB_PATH = 'majhe-kisan/database.json'
+const RETIRED_DEMO_USER_IDS = new Set([
+  'farmer_sunita',
+  'farmer_vijay',
+  'farmer_meena',
+  'buyer_sahyadri',
+  'buyer_greenroots',
+  'buyer_lasalgaon',
+])
 
 // ─── Initial Seed Data ────────────────────────────────────────────────────────
 const INITIAL_SEED: DatabaseSchema = {
@@ -991,9 +1001,45 @@ const INITIAL_SEED: DatabaseSchema = {
 // ─── Persistent Database Store Class ──────────────────────────────────────────
 class DatabaseStore {
   private data: DatabaseSchema
+  private dirty = false
 
   constructor() {
     this.data = this.loadData()
+  }
+
+  /**
+   * Vercel functions do not have a durable local disk. Load the latest database
+   * snapshot from the project's private Blob store before handling a request.
+   */
+  async syncFromPersistentStorage() {
+    if (!process.env.VERCEL) return
+
+    const remote = await get(REMOTE_DB_PATH, { access: 'private', useCache: false })
+    if (!remote) {
+      this.dirty = true
+      await this.flushPersistentStorage()
+      return
+    }
+    if (remote.statusCode !== 200 || !remote.stream) return
+
+    const raw = await new Response(remote.stream).text()
+    JSON.parse(raw)
+    if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true })
+    fs.writeFileSync(DB_FILE, raw, 'utf-8')
+    this.data = this.loadData()
+    this.dirty = false
+  }
+
+  /** Persist any changes made during the current request before it completes. */
+  async flushPersistentStorage() {
+    if (!process.env.VERCEL || !this.dirty) return
+    await put(REMOTE_DB_PATH, JSON.stringify(this.data), {
+      access: 'private',
+      allowOverwrite: true,
+      contentType: 'application/json',
+      cacheControlMaxAge: 60,
+    })
+    this.dirty = false
   }
 
   private loadData(): DatabaseSchema {
@@ -1037,7 +1083,7 @@ class DatabaseStore {
             for (const seedAccount of INITIAL_SEED.users) {
               if (!accounts.some((account: User) => account.id === seedAccount.id)) accounts.push({ ...seedAccount })
             }
-            return accounts
+            return accounts.filter((account: User) => !RETIRED_DEMO_USER_IDS.has(account.id))
           })(),
           crops: parsed.crops?.length ? parsed.crops : INITIAL_SEED.crops,
           marketplaceListings: parsed.marketplaceListings?.length ? parsed.marketplaceListings : INITIAL_SEED.marketplaceListings,
@@ -1105,6 +1151,7 @@ class DatabaseStore {
   }
 
   private saveData(dataToSave: DatabaseSchema = this.data) {
+    this.dirty = true
     try {
       if (!fs.existsSync(DB_DIR)) {
         fs.mkdirSync(DB_DIR, { recursive: true })
@@ -1368,10 +1415,11 @@ class DatabaseStore {
 
   // ─── Procurement Demands (RFQs) ─────────────────────────────────────────────
   getDemands(buyerId?: string): ProcurementDemand[] {
+    const visibleDemands = this.data.demands.filter((demand) => !demand.buyerId || !RETIRED_DEMO_USER_IDS.has(demand.buyerId))
     if (buyerId) {
-      return this.data.demands.filter((d) => d.buyerId === buyerId)
+      return visibleDemands.filter((d) => d.buyerId === buyerId)
     }
-    return this.data.demands
+    return visibleDemands
   }
 
   getDemandById(id: string): ProcurementDemand | undefined {
@@ -1405,10 +1453,11 @@ class DatabaseStore {
 
   // ─── Negotiations ──────────────────────────────────────────────────────────
   getNegotiations(targetUserId?: string): NegotiationBid[] {
+    const visibleNegotiations = this.data.negotiations.filter((negotiation) => !RETIRED_DEMO_USER_IDS.has(negotiation.senderId) && !RETIRED_DEMO_USER_IDS.has(negotiation.targetUserId))
     if (targetUserId) {
-      return this.data.negotiations.filter((n) => n.targetUserId === targetUserId || n.senderId === targetUserId)
+      return visibleNegotiations.filter((n) => n.targetUserId === targetUserId || n.senderId === targetUserId)
     }
-    return this.data.negotiations
+    return visibleNegotiations
   }
 
   createNegotiation(bid: NegotiationBid): NegotiationBid {

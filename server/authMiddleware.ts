@@ -7,7 +7,8 @@ export type AuthenticatedRequest = Request & { user?: User }
 
 const sessions = new Map<string, { userId: string; expiresAt: number }>()
 const OTP_TTL_MS = 5 * 60 * 1000
-const SESSION_TTL_MS = 24 * 60 * 60 * 1000
+// Keep a remembered login valid across browser restarts while still expiring it.
+const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000
 const SESSION_SECRET = process.env.KISANSETU_SESSION_SECRET || 'kisansetu-local-session-v1-2026'
 const otps = new Map<string, { code: string; expiresAt: number }>()
 

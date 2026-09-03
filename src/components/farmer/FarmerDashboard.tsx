@@ -4,6 +4,7 @@ import { api } from '../../services/api'
 import { MarketOverview } from './MarketOverview'
 import { CropValue } from './CropValue'
 import { GovernmentSchemes } from './GovernmentSchemes'
+import { FarmerNegotiations } from './FarmerNegotiations'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type NavTab = 'home' | 'crops' | 'storage' | 'market' | 'cropValue' | 'schemes' | 'history' | 'account'
@@ -911,6 +912,8 @@ export function FarmerDashboard({ user, onLogout }: { user: User; onLogout: () =
               <h2 className="text-2xl font-bold" style={{ color: '#17221D' }}>My Sales</h2>
               <p className="text-sm mt-0.5" style={{ color: '#66736C' }}>Active protected trades and completed sales records</p>
             </div>
+
+            <FarmerNegotiations user={user} />
 
             {activeSaleSummary && <div className="p-4 rounded-2xl" style={{ background: '#063B2A' }}>
               <div className="flex items-start justify-between gap-3"><div><div className="text-xs font-bold uppercase tracking-wider" style={{ color: '#F4C44E' }}>● Active Sale Request</div><div className="text-lg font-bold text-white mt-1">{activeSaleSummary.crop} · {activeSaleSummary.quantityQtl} Qtl</div><div className="text-xs mt-1" style={{ color: '#A8C4B0' }}>{activeSaleSummary.buyer} · ₹{activeSaleSummary.price.toLocaleString('en-IN')}/Qtl</div><div className="text-xs mt-1" style={{ color: '#F4C44E' }}>{activeSaleSummary.status}</div></div><Badge variant="gold">Pending</Badge></div>

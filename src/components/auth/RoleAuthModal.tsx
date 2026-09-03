@@ -7,16 +7,10 @@ type AuthMode = 'login' | 'register'
 
 const FARMER_DEMO_ACCOUNTS = [
   { label: 'Ramesh Patil · Niphad', identifier: '98220 14589' },
-  { label: 'Sunita Jadhav · Pimpalgaon', identifier: '98909 22461' },
-  { label: 'Vijay Shinde · Dindori', identifier: '97658 41032' },
-  { label: 'Meena Pawar · Yeola', identifier: '94221 67318' },
 ]
 
 const BUYER_DEMO_ACCOUNTS = [
   { label: 'Deccan Fresh Exports', identifier: 'sunil@deccanfresh.com' },
-  { label: 'Sahyadri Agro Mart', identifier: 'procure@sahyadriagro.in' },
-  { label: 'GreenRoots Organics', identifier: 'buy@greenroots.in' },
-  { label: 'Lasalgaon Crop Traders', identifier: 'trade@lasalgaoncrops.in' },
 ]
 
 interface RoleAuthModalProps {
@@ -37,11 +31,11 @@ export function RoleAuthModal({ role, initialMode, onClose, onLoginSuccess }: Ro
   const [farmerName, setFarmerName] = useState('Ramesh Patil')
   const [farmerLocation, setFarmerLocation] = useState('Niphad, Nashik')
   const [farmerLand, setFarmerLand] = useState('5.2 Acres')
-  const [farmerDemoIdentifier, setFarmerDemoIdentifier] = useState(FARMER_DEMO_ACCOUNTS[0].identifier)
+  const farmerDemoIdentifier = FARMER_DEMO_ACCOUNTS[0].identifier
 
   const [buyerIdentifier, setBuyerIdentifier] = useState('sunil@deccanfresh.com')
   const [buyerPassword, setBuyerPassword] = useState('password123')
-  const [buyerDemoIdentifier, setBuyerDemoIdentifier] = useState(BUYER_DEMO_ACCOUNTS[0].identifier)
+  const buyerDemoIdentifier = BUYER_DEMO_ACCOUNTS[0].identifier
   const [buyerCompany, setBuyerCompany] = useState('Deccan Fresh Exports Pvt Ltd')
   const [buyerName, setBuyerName] = useState('Sunil Kulkarni')
   const [buyerType, setBuyerType] = useState<'Exporter' | 'Wholesale Trader' | 'Food Processor' | 'Retail Chain'>('Exporter')
@@ -166,15 +160,11 @@ export function RoleAuthModal({ role, initialMode, onClose, onLoginSuccess }: Ro
           </form>
 
           {mode === 'login' && role === 'farmer' && <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-            <select value={farmerDemoIdentifier} onChange={(event) => setFarmerDemoIdentifier(event.target.value)} className="border px-3 py-3 text-sm font-semibold" style={{ borderColor: '#9EAAA1', color: '#35483B' }}>
-              {FARMER_DEMO_ACCOUNTS.map((account) => <option key={account.identifier} value={account.identifier}>{account.label}</option>)}
-            </select>
+            <div className="border px-3 py-3 text-sm font-semibold" style={{ borderColor: '#9EAAA1', color: '#35483B' }}>{FARMER_DEMO_ACCOUNTS[0].label}</div>
             <button type="button" disabled={loading} onClick={useDemo} className="border px-4 py-3 text-sm font-bold disabled:opacity-50" style={{ borderColor: '#173F2A', color: '#173F2A' }}>Open demo</button>
           </div>}
           {mode === 'login' && role === 'buyer' && <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-            <select value={buyerDemoIdentifier} onChange={(event) => setBuyerDemoIdentifier(event.target.value)} className="border px-3 py-3 text-sm font-semibold" style={{ borderColor: '#9EAAA1', color: '#35483B' }}>
-              {BUYER_DEMO_ACCOUNTS.map((account) => <option key={account.identifier} value={account.identifier}>{account.label}</option>)}
-            </select>
+            <div className="border px-3 py-3 text-sm font-semibold" style={{ borderColor: '#9EAAA1', color: '#35483B' }}>{BUYER_DEMO_ACCOUNTS[0].label}</div>
             <button type="button" disabled={loading} onClick={useDemo} className="border px-4 py-3 text-sm font-bold disabled:opacity-50" style={{ borderColor: '#173F2A', color: '#173F2A' }}>Open demo</button>
           </div>}
           <p className="mt-4 text-center text-xs leading-relaxed" style={{ color: '#879087' }}>Public market information remains available without an account.</p>

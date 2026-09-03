@@ -16,6 +16,7 @@ export function BuyerWorkspace({ user, onNotify }: { user: User; onNotify: (titl
   const [postDemandOpen, setPostDemandOpen] = useState(false)
   const [selectedResponse, setSelectedResponse] = useState<NegotiationBid | null>(null)
   const [decisionBusy, setDecisionBusy] = useState(false)
+  const [messageBusy, setMessageBusy] = useState(false)
 
   const loadWorkspace = useCallback(async (quiet = false) => {
     if (!quiet) setLoading(true)
@@ -66,6 +67,18 @@ export function BuyerWorkspace({ user, onNotify }: { user: User; onNotify: (titl
     }
   }
 
+  async function sendMessage(message: string) {
+    if (!selectedResponse) return
+    setMessageBusy(true)
+    try {
+      const updated = await api.demands.sendNegotiationMessage(selectedResponse.id, message)
+      setResponses((current) => current.map((response) => response.id === updated.id ? updated : response))
+      setSelectedResponse(updated)
+    } finally {
+      setMessageBusy(false)
+    }
+  }
+
   const navigation: { id: BuyerTab; label: string; icon: BuyerIconName; count?: number }[] = [
     { id: 'overview', label: 'Overview', icon: 'overview' },
     { id: 'demands', label: 'My Demands', icon: 'demand', count: activeDemands.length },
@@ -80,7 +93,7 @@ export function BuyerWorkspace({ user, onNotify }: { user: User; onNotify: (titl
     </main>
     <BuyerNavigation items={navigation} activeTab={activeTab} onTab={setActiveTab} />
     <PostDemandModal isOpen={postDemandOpen} onClose={() => setPostDemandOpen(false)} onCreateDemand={createDemand} />
-    {selectedResponse && <BuyerResponseModal response={selectedResponse} demand={demands.find((demand) => demand.id === selectedResponse.demandId)} busy={decisionBusy} onClose={() => setSelectedResponse(null)} onDecision={decide} />}
+    {selectedResponse && <BuyerResponseModal response={selectedResponse} demand={demands.find((demand) => demand.id === selectedResponse.demandId)} currentUserId={user.id} busy={decisionBusy} messageBusy={messageBusy} onClose={() => setSelectedResponse(null)} onDecision={decide} onSendMessage={sendMessage} />}
   </>
 }
 

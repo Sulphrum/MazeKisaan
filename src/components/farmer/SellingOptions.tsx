@@ -22,6 +22,7 @@ export interface SaleRequestSummary {
     senderRole: 'farmer'
     senderName: string
     targetUserId: string
+    targetName?: string
     cropName: string
     requestedQuantityQtl: number
     counterPricePerQtl: number
@@ -135,40 +136,6 @@ export function estimateTransportCost(distanceKm: number, quantityQtl: number, h
   return Math.max(minimumCharge, Math.round((roundTripKm * costPerKm * trips) / 50) * 50)
 }
 
-function createDemoMatches(cropName: string, variety: string, fairRate: number): BuyerMatch[] {
-  const offers = [
-    { id: 'fresh', buyerId: 'buyer_deccan', company: 'Deccan Fresh Exports', person: 'Sunil Kulkarni', multiplier: 1.03, quantity: 35, distance: 12, pickup: true, type: 'Food Processor', grade: 'Grade A / B', payment: 'Payment protection before pickup', trustScore: 94 },
-    { id: 'agro', buyerId: 'buyer_sahyadri', company: 'Sahyadri Agro Network', person: 'Anand More', multiplier: 0.99, quantity: 70, distance: 18, pickup: true, type: 'Retail Network', grade: 'Grade A / B', payment: 'Payment within one working day', trustScore: 91 },
-    { id: 'trade', buyerId: 'buyer_lasalgaon', company: 'Lasalgaon Crop Traders', person: 'Sanjay Patil', multiplier: 1.05, quantity: 100, distance: 28, pickup: false, type: 'Wholesale Trader', grade: 'Grade A preferred', payment: 'Payment after delivery confirmation', trustScore: 88 },
-  ]
-  return offers.map((offer) => {
-    const price = Math.round(fairRate * offer.multiplier / 10) * 10
-    return {
-      id: `demo_${cropName.toLowerCase().replace(/\s+/g, '_')}_${offer.id}`,
-      buyerId: offer.buyerId,
-      buyerName: offer.person,
-      buyerCompany: offer.company,
-      cropName,
-      variety: variety || 'Standard commercial variety',
-      quantityQtlNeeded: offer.quantity,
-      targetPricePerQtl: `${formatMoney(price)} / Qtl`,
-      targetPriceNumeric: price,
-      requiredByDate: 'Within 3–5 days',
-      deliveryLocation: `${offer.company} collection point`,
-      buyerType: offer.type,
-      gradeRequired: offer.grade,
-      responsesCount: 2,
-      status: 'Active',
-      transportProvidedByBuyer: offer.pickup,
-      pickupDistanceKm: offer.distance,
-      paymentText: offer.payment,
-      verified: true,
-      trustScore: offer.trustScore,
-      source: 'demo',
-    }
-  })
-}
-
 export function SellingOptions({ user, cropName, variety, quantityQtl, grade, fairLow, fairHigh, fairRate, cultivationCost, hasTransportVehicle, harvestStatus, location, cropImages, onSaleRequest, onViewSales }: SellingOptionsProps) {
   const [liveDemands, setLiveDemands] = useState<ProcurementDemand[]>([])
   const [selectedBuyer, setSelectedBuyer] = useState<BuyerMatch | null>(null)
@@ -197,9 +164,8 @@ export function SellingOptions({ user, cropName, variety, quantityQtl, grade, fa
     const live: BuyerMatch[] = liveDemands
       .filter((demand) => demand.status === 'Active' && demand.cropName.toLowerCase() === cropName.toLowerCase())
       .map((demand) => ({ ...demand, paymentText: 'Payment terms confirmed before dispatch', verified: true, trustScore: 93, source: 'live' as const }))
-    const demos = createDemoMatches(cropName, variety, fairRate)
-    return [...live, ...demos.filter((demo) => !live.some((item) => item.buyerCompany === demo.buyerCompany))].slice(0, 3)
-  }, [cropName, fairHigh, fairLow, fairRate, liveDemands, variety])
+    return live.slice(0, 3)
+  }, [cropName, liveDemands])
 
   const buyerAmounts = matches.map((buyer) => {
     const matchedQuantity = Math.min(quantityQtl, buyer.quantityQtlNeeded)
@@ -257,6 +223,7 @@ export function SellingOptions({ user, cropName, variety, quantityQtl, grade, fa
         senderRole: 'farmer',
         senderName: user.name,
         targetUserId: selectedBuyer.buyerId || selectedBuyer.id,
+        targetName: selectedBuyer.buyerCompany,
         cropName,
         requestedQuantityQtl: qty,
         counterPricePerQtl: price,
@@ -317,6 +284,7 @@ export function SellingOptions({ user, cropName, variety, quantityQtl, grade, fa
             </article>
           ))}
         </div>
+        {!buyerAmounts.length && <div className="mt-6 border border-dashed p-6 text-center" style={{ borderColor: '#B9C5BB', background: '#FFFEFA' }}><h4 className="font-bold" style={{ color: '#1D241F' }}>No buyer demand matches this crop yet.</h4><p className="mt-2 text-sm" style={{ color: '#687069' }}>When the buyer raises a demand for {cropName.toLowerCase()}, it will appear here automatically. You can still compare the nearby mandi options below.</p></div>}
 
         {selectedBuyer && (() => {
           const proposalQty = Number(dealQuantity) || 0
