@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 140" role="img" aria-labelledby="title desc">
+  <title id="title">माझे Kisan</title>
+  <desc id="desc">माझे in green and Kisan in warm brown with a growing plant</desc>
+  <g aria-hidden="true">
+    <path d="M229 62c.4-18.2 1.2-30.5 2.8-46.2" fill="none" stroke="#6D3B17" stroke-width="6" stroke-linecap="round"/>
+    <path d="M232.5 31C211 31 199 20.6 196 2c22-1.8 36.2 9.2 36.5 29Z" fill="#0B5D1E"/>
+    <path d="M231.5 23C233.8 5.4 246.6-3.9 267.3-1.4 264.7 16.4 252.4 25.7 231.5 23Z" fill="#247A27"/>
+  </g>
+  <text x="6" y="111" fill="#0B5D1E" font-family="Noto Sans Devanagari, Nirmala UI, Mangal, sans-serif" font-size="84" font-weight="800" letter-spacing="-2">माझे</text>
+  <text x="214" y="111" fill="#6D3B17" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="800" letter-spacing="-3">Kisan</text>
+</svg>

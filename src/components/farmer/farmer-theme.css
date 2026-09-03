@@ -1,0 +1,386 @@
+.farmer-portal-theme {
+  --farmer-forest: #173F2A;
+  --farmer-leaf: #3F6B45;
+  --farmer-cream: #F7F3E8;
+  --farmer-cream-deep: #EEE9DB;
+  --farmer-paper: #FFFEFA;
+  --farmer-ink: #1D241F;
+  --farmer-muted: #687069;
+  --farmer-line: rgba(29, 36, 31, 0.13);
+  --farmer-gold: #C5A15A;
+  min-height: 100%;
+  background:
+    linear-gradient(rgba(247, 243, 232, 0.96), rgba(247, 243, 232, 0.96)),
+    repeating-linear-gradient(90deg, transparent 0 47px, rgba(23, 63, 42, 0.035) 48px 49px);
+  color: var(--farmer-ink);
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+}
+
+.farmer-portal-theme > div {
+  min-height: 100vh !important;
+  background: transparent !important;
+}
+
+/* Header: light, quiet, and aligned with the public brand. */
+.farmer-portal-theme > div > header {
+  min-height: 76px;
+  padding: 14px 24px !important;
+  border-bottom: 1px solid var(--farmer-line);
+  background: rgba(247, 243, 232, 0.94) !important;
+  box-shadow: 0 8px 30px rgba(23, 63, 42, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+.farmer-portal-theme > div > header > div {
+  max-width: 1180px !important;
+}
+
+.farmer-portal-theme > div > header > div > div:first-child > div:first-child {
+  width: 42px !important;
+  height: 42px !important;
+  flex: 0 0 42px;
+  border-radius: 50% !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  background: url('../../assets/majhe-kisan-mark.svg') center / contain no-repeat !important;
+  box-shadow: none !important;
+}
+
+.farmer-portal-theme > div > header .text-white {
+  color: var(--farmer-forest) !important;
+}
+
+.farmer-portal-theme > div > header [style*='#A8C4B0'] {
+  color: var(--farmer-muted) !important;
+}
+
+.farmer-portal-theme > div > header > div > div:last-child > div {
+  border: 1px solid var(--farmer-line);
+  border-radius: 3px !important;
+  background: var(--farmer-paper) !important;
+}
+
+.farmer-portal-theme > div > header > div > div:last-child > div > div:first-child {
+  background: var(--farmer-forest) !important;
+}
+
+/* Page rhythm shared by Market, Schemes, My Sales, and Account. */
+.farmer-portal-theme > div > main {
+  position: relative;
+  width: min(calc(100% - 32px), 1080px);
+  max-width: 1080px !important;
+  padding: 34px 0 58px !important;
+}
+
+.farmer-portal-theme main h1,
+.farmer-portal-theme main h2 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-weight: 400 !important;
+  letter-spacing: -0.02em;
+  color: var(--farmer-ink) !important;
+}
+
+.farmer-portal-theme main h1 { font-size: clamp(32px, 4vw, 45px) !important; line-height: 1.02; }
+.farmer-portal-theme main h2 { font-size: clamp(31px, 3.5vw, 42px) !important; line-height: 1.05; }
+.farmer-portal-theme main h3 { color: var(--farmer-ink) !important; }
+
+.farmer-portal-theme main h1 + p,
+.farmer-portal-theme main h2 + p {
+  max-width: 620px;
+  margin-top: 8px !important;
+  line-height: 1.65;
+  color: var(--farmer-muted) !important;
+}
+
+/* Rectilinear editorial surfaces replace the older bubbly card system. */
+.farmer-portal-theme main [class*='rounded-3xl'],
+.farmer-portal-theme main [class*='rounded-2xl'],
+.farmer-portal-theme main [class*='rounded-xl'],
+.farmer-portal-theme [class*='max-w-xl'][class*='shadow-2xl'],
+.farmer-portal-theme [class*='max-w-sm'][class*='shadow-2xl'] {
+  border-radius: 4px !important;
+}
+
+.farmer-portal-theme main .bg-white,
+.farmer-portal-theme main [style*='background: rgb(255, 255, 255)'] {
+  background: var(--farmer-paper) !important;
+}
+
+.farmer-portal-theme main button {
+  letter-spacing: 0.005em;
+}
+
+.farmer-portal-theme main button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.farmer-portal-theme main input,
+.farmer-portal-theme main select,
+.farmer-portal-theme main textarea {
+  border-radius: 3px !important;
+  background: var(--farmer-paper) !important;
+}
+
+.farmer-portal-theme main img {
+  filter: saturate(0.84) contrast(0.98);
+}
+
+.farmer-portal-theme main [class*='hover:shadow-md']:hover,
+.farmer-portal-theme main [class*='hover:shadow-sm']:hover {
+  box-shadow: 0 18px 38px -28px rgba(23, 63, 42, 0.38) !important;
+}
+
+/* Compact status pills remain rounded because their shape carries meaning. */
+.farmer-portal-theme main .rounded-full {
+  border-radius: 999px !important;
+}
+
+/* Bottom/mobile navigation icons are always vector masks, never emoji. */
+.farmer-portal-theme > div > nav {
+  border-color: var(--farmer-line) !important;
+  background: rgba(255, 254, 250, 0.96) !important;
+  box-shadow: 0 -10px 30px rgba(23, 63, 42, 0.06);
+  backdrop-filter: blur(14px);
+}
+
+.farmer-portal-theme > div > nav button {
+  position: relative;
+  border-radius: 3px !important;
+}
+
+.farmer-portal-theme > div > nav button > div {
+  display: none;
+}
+
+.farmer-portal-theme > div > nav button::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.farmer-portal-theme > div > nav button:nth-child(1)::before { mask-image: url('../../assets/farmer-icons/market.svg'); }
+.farmer-portal-theme > div > nav button:nth-child(2)::before { mask-image: url('../../assets/farmer-icons/crop-value.svg'); }
+.farmer-portal-theme > div > nav button:nth-child(3)::before { mask-image: url('../../assets/farmer-icons/schemes.svg'); }
+.farmer-portal-theme > div > nav button:nth-child(4)::before { mask-image: url('../../assets/farmer-icons/history.svg'); }
+.farmer-portal-theme > div > nav button:nth-child(5)::before { mask-image: url('../../assets/farmer-icons/account.svg'); }
+
+.farmer-portal-theme > div > nav.buyer-portal-navigation button:nth-child(1)::before {
+  mask-image: url('../../assets/farmer-icons/home.svg');
+}
+
+.farmer-portal-theme > div > nav.buyer-portal-navigation button:nth-child(2)::before {
+  mask-image: url('../../assets/farmer-icons/crops.svg');
+}
+
+.farmer-portal-theme > div > nav.buyer-portal-navigation button:nth-child(3)::before {
+  mask-image: url('../../assets/farmer-icons/history.svg');
+}
+
+.farmer-portal-theme > div > nav.buyer-portal-navigation button:nth-child(4)::before {
+  mask-image: url('../../assets/farmer-icons/account.svg');
+}
+
+/* Give each area a distinct but related rhythm. */
+.farmer-portal-theme main > div > .grid {
+  gap: 18px !important;
+}
+
+.farmer-portal-theme main > div > section {
+  padding-top: 3px;
+}
+
+.farmer-portal-theme main > div > section + section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--farmer-line);
+}
+
+.farmer-portal-theme main [style*='#EAF5EE'] {
+  border-color: rgba(63, 107, 69, 0.2) !important;
+}
+
+.farmer-portal-theme main [style*='#FFF8ED'] {
+  border-color: rgba(197, 161, 90, 0.35) !important;
+}
+
+/* Floating alerts and modals follow the same quieter geometry. */
+.farmer-portal-theme > div > div.fixed[class*='top-20'] {
+  border-radius: 3px !important;
+  background: var(--farmer-forest) !important;
+  box-shadow: 0 18px 45px -25px rgba(23, 63, 42, 0.55) !important;
+}
+
+.farmer-portal-theme [class*='shadow-2xl'] {
+  border: 1px solid var(--farmer-line);
+  box-shadow: 0 34px 90px -45px rgba(12, 35, 21, 0.55) !important;
+}
+
+/* Desktop-only field ledger navigation: a visual signature for the portal. */
+@media (min-width: 1280px) {
+  .farmer-portal-theme > div {
+    padding-bottom: 36px !important;
+  }
+
+  .farmer-portal-theme > div > header > div {
+    max-width: 1370px !important;
+  }
+
+  .farmer-portal-theme > div > main {
+    width: min(1050px, calc(100vw - 280px));
+    margin-right: auto;
+    margin-left: max(220px, calc((100vw - 1440px) / 2 + 220px));
+    padding-bottom: 44px !important;
+  }
+
+  .farmer-portal-theme > div > nav {
+    inset: 106px auto auto max(24px, calc((100vw - 1440px) / 2 + 24px)) !important;
+    width: 172px;
+    padding: 10px !important;
+    border: 1px solid var(--farmer-line) !important;
+    background: rgba(238, 233, 219, 0.94) !important;
+    box-shadow: none;
+  }
+
+  .farmer-portal-theme > div > nav::before {
+    content: 'FARMER PORTAL';
+    display: block;
+    padding: 8px 10px 11px;
+    color: var(--farmer-muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
+  .farmer-portal-theme > div > nav.buyer-portal-navigation::before {
+    content: 'BUYER PORTAL';
+  }
+
+  .farmer-portal-theme > div > nav > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+  }
+
+  .farmer-portal-theme > div > nav button {
+    width: 100%;
+    min-width: 0 !important;
+    min-height: 44px;
+    flex-direction: row !important;
+    justify-content: flex-start;
+    gap: 11px !important;
+    padding: 10px 11px !important;
+  }
+
+  .farmer-portal-theme > div > nav button[style*='color: rgb(6, 59, 42)'],
+  .farmer-portal-theme > div > nav button[style*='color: #063B2A'] {
+    color: white !important;
+    background: var(--farmer-forest);
+  }
+
+  .farmer-portal-theme > div > nav button > span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  .farmer-portal-theme > div > nav button > span:last-child[class*='w-4'] {
+    display: none;
+  }
+}
+
+@media (max-width: 1279px) {
+  .farmer-portal-theme > div > nav button {
+    gap: 3px !important;
+    min-width: 48px !important;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+  }
+
+  .farmer-portal-theme > div > nav button > span {
+    font-size: 9px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .farmer-portal-theme > div > header {
+    min-height: 70px;
+    padding: 12px 16px !important;
+  }
+
+  .farmer-portal-theme > div > main {
+    width: calc(100% - 28px);
+    padding-top: 25px !important;
+  }
+
+  .farmer-portal-theme main h1 { font-size: 35px !important; }
+  .farmer-portal-theme main h2 { font-size: 33px !important; }
+
+  .farmer-portal-theme > div > nav {
+    padding: 7px 3px 10px !important;
+  }
+
+  .farmer-portal-theme > div > nav button::before {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+
+/* Market-first editorial layout. */
+.farmer-portal-theme .market-overview .market-page-heading {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--farmer-line);
+}
+
+.farmer-portal-theme .market-overview .market-crop-card:hover {
+  border-color: var(--farmer-leaf) !important;
+}
+
+.farmer-portal-theme .market-overview select:focus,
+.farmer-portal-theme .market-overview input:focus {
+  border-color: var(--farmer-leaf) !important;
+  box-shadow: 0 0 0 3px rgba(63, 107, 69, 0.1);
+}
+
+@media (max-width: 640px) {
+  .farmer-portal-theme .market-overview {
+    row-gap: 32px;
+  }
+
+  .farmer-portal-theme .market-overview section + section {
+    margin-top: 24px;
+    padding-top: 24px;
+  }
+}
+
+.farmer-portal-theme .market-crop-grid {
+  scrollbar-gutter: stable;
+}
+
+.farmer-portal-theme .market-crop-grid::-webkit-scrollbar {
+  width: 9px;
+}
+
+.farmer-portal-theme .market-crop-grid::-webkit-scrollbar-track {
+  background: #E5E7E2;
+  border-radius: 999px;
+}
+
+.farmer-portal-theme .market-crop-grid::-webkit-scrollbar-thumb {
+  background: #8FA798;
+  border: 2px solid #E5E7E2;
+  border-radius: 999px;
+}
+
+
+/* Personal crop valuation flow. */
+.farmer-portal-theme .crop-value-page input:focus,
+.farmer-portal-theme .crop-value-page select:focus {
+  border-color: var(--farmer-leaf) !important;
+  box-shadow: 0 0 0 3px rgba(63, 107, 69, 0.1);
+}

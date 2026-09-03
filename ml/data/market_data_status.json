@@ -1,0 +1,48 @@
+{
+  "training_history": {
+    "source": "demo_generated",
+    "warning": "Generated values are for development only and are not current mandi observations.",
+    "rows": 66468,
+    "commodities": [
+      "Tomato",
+      "Onion",
+      "Potato",
+      "Brinjal",
+      "Green Chilli",
+      "Cabbage",
+      "Cauliflower",
+      "Okra",
+      "Capsicum",
+      "Cucumber",
+      "Bottle Gourd",
+      "Bitter Gourd",
+      "Pumpkin",
+      "Carrot",
+      "Radish",
+      "Peas",
+      "Garlic",
+      "Ginger",
+      "Grapes",
+      "Banana",
+      "Pomegranate",
+      "Wheat",
+      "Maize",
+      "Chickpea",
+      "Pigeon Pea",
+      "Soybean",
+      "Groundnut",
+      "Cotton",
+      "Turmeric"
+    ],
+    "start_date": "2024-08-01",
+    "end_date": "2026-09-03",
+    "generated_at": "2026-09-02T17:31:19.172928+00:00"
+  },
+  "official_live": {
+    "last_attempt": "2026-09-02T10:57:01.811659+00:00",
+    "resource_id": "9ef84268-d588-465a-a308-a864a43d0070",
+    "state": "Maharashtra",
+    "ok": false,
+    "error": "DATA_GOV_IN_API_KEY is not configured"
+  }
+}

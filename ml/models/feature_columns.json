@@ -1,0 +1,19 @@
+[
+  "price_lag_1d",
+  "price_lag_7d",
+  "price_lag_14d",
+  "price_lag_30d",
+  "price_lag_365d",
+  "price_trend_7d",
+  "price_trend_30d",
+  "arrivals_lag_7d",
+  "arrivals_trend",
+  "month",
+  "week_of_year",
+  "day_of_week",
+  "days_to_diwali",
+  "days_to_navratri",
+  "is_harvest_season",
+  "commodity_encoded",
+  "mandi_encoded"
+]

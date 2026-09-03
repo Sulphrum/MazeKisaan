@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">माझे Kisan logo mark</title>
+  <desc id="desc">A young green plant growing from warm brown soil</desc>
+  <circle cx="32" cy="32" r="30" fill="#F3E8CD"/>
+  <path d="M31.8 38.8c.3-8.4.7-14.1 1.4-20.8" fill="none" stroke="#6D3B17" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M33.5 22.5C24 22.3 18.6 17.7 17.2 9c9.9-.8 16.2 4.1 16.3 13.5Z" fill="#0B5D1E"/>
+  <path d="M33.1 18.5C34 10.1 39.8 5.7 49.2 6.7c-1.1 8.6-6.7 13-16.1 11.8Z" fill="#247A27"/>
+  <path d="M15 44.2c5.7-4.6 11.4-6.9 17.1-6.9 5.7 0 11.3 2.3 16.9 6.9l-3.3 8.4H18.3L15 44.2Z" fill="#6D3B17"/>
+  <path d="M19.4 45.4h25.2" stroke="#9B6337" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+</svg>

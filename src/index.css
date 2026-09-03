@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+html,
+body,
+#root {
+  height: 100%;
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+  background-color: #F7F3E8;
+  color: #1D241F;
+}
+
+html { scroll-behavior: smooth; }
+* { box-sizing: border-box; }
+.font-display { font-family: 'DM Serif Display', Georgia, serif; }
+.kisansetu-home { font-family: 'Inter', 'Noto Sans Devanagari', sans-serif; }
+.kisansetu-home em { font-style: italic; }
+
+/* The existing authentication component remains functional, but its old
+   marketing page and footer are hidden inside the new public entry page. */
+.auth-only > div > nav:first-of-type,
+.auth-only > div > section:first-of-type,
+.auth-only > div > footer { display: none; }
+.auth-only > div { min-height: auto; background: #EEE9DB !important; }
+
+.auth-only #auth-section {
+  scroll-margin-top: 24px;
+  border-color: rgba(29, 36, 31, 0.12) !important;
+  background: #EEE9DB !important;
+  padding: 96px 24px;
+}
+
+.auth-only #auth-section > div {
+  max-width: 1080px !important;
+}
+
+/* Login shell: photographic story on the left, focused form on the right. */
+.auth-only #auth-section > div > div {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.86fr) minmax(430px, 1.14fr);
+  overflow: hidden;
+  border-radius: 2px !important;
+  border-color: rgba(29, 36, 31, 0.13) !important;
+  background: #FFFEFA !important;
+  box-shadow: 0 28px 70px -42px rgba(23, 63, 42, 0.4) !important;
+}
+
+.auth-only #auth-section > div > div::before {
+  content: '';
+  grid-column: 1;
+  grid-row: 1 / span 4;
+  min-height: 760px;
+  background:
+    linear-gradient(180deg, rgba(12, 39, 23, 0.04), rgba(12, 39, 23, 0.52)),
+    url('./assets/kisansetu-hero.jpg') 64% center / cover no-repeat;
+}
+
+.auth-only #auth-section > div > div > * {
+  grid-column: 2;
+}
+
+/* Brand and form header. */
+.auth-only #auth-section > div > div > div:first-child {
+  padding: 48px 52px 15px !important;
+  text-align: left !important;
+}
+
+.auth-only #auth-section > div > div > div:first-child > div:first-child {
+  justify-content: flex-start !important;
+  margin-bottom: 30px !important;
+}
+
+.auth-only #auth-section > div > div > div:first-child > div:first-child > div:first-child {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 48px;
+  border-radius: 50% !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  background: url('./assets/majhe-kisan-mark.svg') center / contain no-repeat !important;
+  box-shadow: none !important;
+}
+
+.auth-only #auth-section > div > div > div:first-child h2 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  margin-top: 0 !important;
+  font-size: 38px !important;
+  font-weight: 400 !important;
+  line-height: 1.05 !important;
+  color: #1D241F !important;
+}
+
+.auth-only #auth-section > div > div > div:first-child h2 + p {
+  margin-top: 9px !important;
+  font-size: 12px !important;
+  color: #687069 !important;
+}
+
+/* Role switcher. */
+.auth-only #auth-section > div > div > div:nth-child(2) {
+  padding: 0 52px 20px !important;
+}
+
+.auth-only #auth-section > div > div > div:nth-child(2) > div {
+  padding: 3px !important;
+  border-radius: 2px !important;
+  border-color: rgba(29, 36, 31, 0.12) !important;
+  background: #F3EFE4 !important;
+}
+
+.auth-only #auth-section > div > div > div:nth-child(2) button {
+  border-radius: 1px !important;
+  min-height: 45px;
+}
+
+.auth-only #auth-section > div > div > div:nth-child(2) button > span:first-child {
+  display: none;
+}
+
+/* Form rhythm and controls. */
+.auth-only #auth-section form {
+  padding: 0 52px 46px !important;
+  gap: 15px !important;
+}
+
+.auth-only #auth-section label {
+  color: #59645D !important;
+  letter-spacing: 0.01em;
+}
+
+.auth-only #auth-section input,
+.auth-only #auth-section select {
+  min-height: 48px;
+  border-radius: 2px !important;
+  border-color: rgba(29, 36, 31, 0.15) !important;
+  background: #FFFEFA !important;
+}
+
+.auth-only #auth-section input:focus,
+.auth-only #auth-section select:focus {
+  border-color: #3F6B45 !important;
+  box-shadow: 0 0 0 3px rgba(63, 107, 69, 0.1) !important;
+}
+
+.auth-only #auth-section form > button {
+  border-radius: 2px !important;
+  min-height: 49px;
+  box-shadow: none !important;
+}
+
+.auth-only #auth-section form > button[type='submit'] {
+  background: #173F2A !important;
+}
+
+.auth-only #auth-section form > button > span:first-child {
+  display: none;
+}
+
+/* The old promotional security bar is intentionally removed; trust is now
+   communicated by restrained copy rather than prototype guarantees. */
+.auth-only #auth-section > div > div > div:last-child {
+  display: none !important;
+}
+
+@media (max-width: 860px) {
+  .auth-only #auth-section { padding: 72px 18px; }
+  .auth-only #auth-section > div > div { display: block; }
+  .auth-only #auth-section > div > div::before { display: none; }
+  .auth-only #auth-section > div > div > div:first-child { padding: 38px 28px 15px !important; }
+  .auth-only #auth-section > div > div > div:nth-child(2) { padding: 0 28px 20px !important; }
+  .auth-only #auth-section form { padding: 0 28px 38px !important; }
+}
+
+@media (max-width: 520px) {
+  .auth-only #auth-section { padding: 58px 14px; }
+  .auth-only #auth-section > div > div > div:first-child { padding: 32px 20px 15px !important; }
+  .auth-only #auth-section > div > div > div:nth-child(2) { padding: 0 20px 18px !important; }
+  .auth-only #auth-section form { padding: 0 20px 32px !important; }
+  .auth-only #auth-section > div > div > div:first-child h2 { font-size: 33px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .kisansetu-home * { transition-duration: 0.01ms !important; }
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #C4DFD0; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #173F2A; }
+
+/* Responsive माझे Kisan wordmark. Text stays in HTML so Marathi shaping remains correct. */
+.majhe-kisan-logo {
+  --mk-marathi: #0B5D1E;
+  --mk-english: #6D3B17;
+  --mk-stem: #6D3B17;
+  --mk-leaf: #0B5D1E;
+  --mk-leaf-light: #2C842F;
+  display: inline-flex;
+  align-items: baseline;
+  padding-top: 0.43em;
+  font-size: 30px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.majhe-kisan-logo--light {
+  --mk-marathi: #E1EFDC;
+  --mk-english: #F2D79D;
+  --mk-stem: #D3A66B;
+  --mk-leaf: #8EB682;
+  --mk-leaf-light: #C0D7B7;
+}
+
+.majhe-kisan-logo__marathi {
+  color: var(--mk-marathi);
+  font-family: 'Noto Sans Devanagari', 'Nirmala UI', Mangal, sans-serif;
+  font-size: 0.98em;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.majhe-kisan-logo__english {
+  position: relative;
+  margin-left: 0.09em;
+  color: var(--mk-english);
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 1em;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.majhe-kisan-logo__sprout {
+  position: absolute;
+  left: 0.15em;
+  top: -0.58em;
+  width: 0.8em;
+  height: 0.7em;
+  overflow: visible;
+}
+
+.majhe-kisan-logo__stem {
+  fill: none;
+  stroke: var(--mk-stem);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.majhe-kisan-logo__leaf { fill: var(--mk-leaf); }
+.majhe-kisan-logo__leaf--light { fill: var(--mk-leaf-light); }
+
+
+.market-updates-scroll {
+  scrollbar-width: auto;
+  scrollbar-color: #78907d #e4e7df;
+}
+
+.market-updates-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.market-updates-scroll::-webkit-scrollbar-track {
+  background: #e4e7df;
+}
+
+.market-updates-scroll::-webkit-scrollbar-thumb {
+  background: #78907d;
+  border: 2px solid #e4e7df;
+}
+
+.market-updates-scroll::-webkit-scrollbar-thumb:hover {
+  background: #526b58;
+}

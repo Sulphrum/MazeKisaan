@@ -1,0 +1,11 @@
+{
+  "description": "माझे Kisan helps farmers understand crop prices, compare selling choices and connect with buyers.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  },
+  "title": "माझे Kisan — Better Markets. Stronger Farmers."
+}
